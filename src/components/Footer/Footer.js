@@ -110,11 +110,9 @@ const Footer = () => {
           </div>
           <div className="layer-stack-parent">
             <div className="layer-stack">
-              <div className="download-app">Are you here to access the admin features?  </div>
               <div className="save-3-with-app-new-user-only-parent">
                 <div className="save-3-with">
                 <a href="/adminLogin">
-                <Button variant="outline-light">Access to the Admin panel </Button>{' '}
                 </a>
                 </div>
 
