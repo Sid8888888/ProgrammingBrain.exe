@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import '@fontsource/roboto';
 import '@fontsource/rock-salt';
+import home from "../../Icons/home.jpg"
 
 const Home = () => {
   const navigate = useNavigate();
@@ -10,22 +11,24 @@ const Home = () => {
     // Navigate to the /gameplay route
     navigate('/gameplay');
   };
-
-  const containerStyle = {
+const containerStyle = {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
     height: '100vh',
-    background: 'linear-gradient(135deg, #4e73df, #1cc88a)',  // Gradient background
     color: '#fff',
     fontFamily: 'Roboto, sans-serif',
     textAlign: 'center',
-    padding: '20px',
+    // padding: '20px',
     boxSizing: 'border-box',
     overflow: 'hidden',
     animation: 'fadeIn 2s ease-in-out',
-  };
+    backgroundImage: `url(${home})`,
+    backgroundPosition: 'center',
+    backgroundSize: 'cover', // Ensures the image covers the entire container
+    width: '100%',
+};
 
   const headingStyle = {
     fontSize: '3.5em',
@@ -33,6 +36,7 @@ const Home = () => {
     fontFamily: 'Rock Salt, cursive',  // Handwritten style for the heading
     textShadow: '2px 2px 8px rgba(0, 0, 0, 0.3)',
     letterSpacing: '2px',
+    paddingTop: '25px',
   };
 
   const paragraphStyle = {

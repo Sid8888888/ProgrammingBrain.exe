@@ -412,15 +412,15 @@
     color: #fff;
   }
   .footer {
-    background-color: #0a2b00;
+    background-color: #ffffff;
     overflow: hidden;
     align-items: flex-end;
-    padding: 80px 0 24px;
+    padding: 40px 0 0px;
     box-sizing: border-box;
     gap: 44px;
     text-align: left;
     font-size: 20px;
-    color: #fafafa;
+    color: #000000;
     font-family: Poppins;
   }
   @media screen and (max-width: 1125px) {
