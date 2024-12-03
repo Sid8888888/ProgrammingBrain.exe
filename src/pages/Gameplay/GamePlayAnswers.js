@@ -1,14 +1,14 @@
 export const Answer0 = [
-    "JavaScript\nfunction printZero(count) { if (count === 0) { console.log(0); return; } printZero(count - 1); } printZero(0);",
-    "Python\ndef print_zero(count): if count == 0: print(0) else: print_zero(count - 1) print_zero(0)",
-    "C\n#include <stdio.h> void printZero(int count) { if (count == 0) { printf(\"%d\", 0); } else { printZero(count - 1); } } int main() { printZero(0); return 0; }",
-    "Java\npublic class Main { public static void printZero(int count) { if (count == 0) { System.out.println(0); } else { printZero(count - 1); } } public static void main(String[] args) { printZero(0); } }",
-    "Ruby\ndef print_zero arr = [0] arr.each { |num| puts num } end print_zero",
-    "PHP\n<?php function printZero($count) { if ($count == 0) { echo 0; } else { printZero($count - 1); } } printZero(0); ?>",
-    "Go\npackage main import \"fmt\" func printZero(count int) { if count == 0 { fmt.Println(0) } else { printZero(count - 1) } } func main() { printZero(0) }",
-    "Swift\nfunc printZero(count: Int) { if count == 0 { print(0) } else { printZero(count: count - 1) } } printZero(count: 0)",
-    "C++\n#include <iostream> using namespace std; void printZero(int count) { if (count == 0) { cout << 0; } else { printZero(count - 1); } } int main() { printZero(0); return 0; }",
-    "TypeScript\nfunction printZero(count: number): void { if (count === 0) { console.log(0); } else { printZero(count - 1); } } printZero(0);"
+    "JavaScript\tfunction printZero(count) { if (count === 0) { console.log(0); return; } printZero(count - 1); } printZero(0);",
+    "Python\tdef print_zero(count): if count == 0: print(0) else: print_zero(count - 1) print_zero(0)",
+    "C\t#include <stdio.h> void printZero(int count) { if (count == 0) { printf(\"%d\", 0); } else { printZero(count - 1); } } int main() { printZero(0); return 0; }",
+    "Java\tpublic class Main { public static void printZero(int count) { if (count == 0) { System.out.println(0); } else { printZero(count - 1); } } public static void main(String[] args) { printZero(0); } }",
+    "Ruby\tdef print_zero arr = [0] arr.each { |num| puts num } end print_zero",
+    "PHP\t<?php function printZero($count) { if ($count == 0) { echo 0; } else { printZero($count - 1); } } printZero(0); ?>",
+    "Go\tpackage main import \"fmt\" func printZero(count int) { if count == 0 { fmt.Println(0) } else { printZero(count - 1) } } func main() { printZero(0) }",
+    "Swift\tfunc printZero(count: Int) { if count == 0 { print(0) } else { printZero(count: count - 1) } } printZero(count: 0)",
+    "C++\t#include <iostream> using namespace std; void printZero(int count) { if (count == 0) { cout << 0; } else { printZero(count - 1); } } int main() { printZero(0); return 0; }",
+    "TypeScript\tfunction printZero(count: number): void { if (count === 0) { console.log(0); } else { printZero(count - 1); } } printZero(0);"
   ];
   
   export const Answer1 = [

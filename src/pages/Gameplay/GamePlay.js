@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import '@fontsource/roboto';
 import '@fontsource/rock-salt';
-import { Answer0, Answer1, Answer2, Answer3,Answer4,Answer5,Answer6,Answer7,Answer8,Answer9 } from './GamePlayAnswers';
+import { 
+  Answer0, Answer1, Answer2, Answer3, Answer4, 
+  Answer5, Answer6, Answer7, Answer8, Answer9 
+} from './GamePlayAnswers';
 
 const GamePlay = () => {
   const [playerName, setPlayerName] = useState('Player 1');
@@ -9,25 +12,28 @@ const GamePlay = () => {
   const [solution, setSolution] = useState(null);
   const [displayedAnswers, setDisplayedAnswers] = useState([]);
 
-
-  
   useEffect(() => {
     const fetchQuestion = async () => {
       try {
         const response = await fetch('https://marcconrad.com/uob/banana/api.php');
         const data = await response.json();
-        setQuestion(data.question);
-        setSolution(data.solution);
+        
+        setQuestion(data.question);  // image URL or data for question
+        setSolution(data.solution);  // the correct solution
 
         // Determine if the solution is even or odd
         const solutionNumber = parseInt(data.solution, 10);
+        
+        // Even solutions should pick answers from Answer0, Answer2, Answer4, Answer6, Answer8
+        // Odd solutions should pick answers from Answer1, Answer3, Answer5, Answer7, Answer9
         const answerSets = solutionNumber % 2 === 0
           ? [Answer0, Answer2, Answer4, Answer6, Answer8]
           : [Answer1, Answer3, Answer5, Answer7, Answer9];
 
-        // Randomly select one answer from each set
+        // Randomly select one answer from each of the 5 answer sets (each containing 10 possible answers)
         const selectedAnswers = answerSets.map(set => {
-          return set[Math.floor(Math.random() * set.length)];
+          const randomIndex = Math.floor(Math.random() * set.length); // Random index from each set
+          return set[randomIndex];  // Select the answer at the random index
         });
 
         setDisplayedAnswers(selectedAnswers);
@@ -45,7 +51,7 @@ const GamePlay = () => {
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    height: '100vh',
+    height: '170vh',
     width: '100vw',
     color: '#fff',
     fontFamily: 'Roboto, sans-serif',
@@ -74,15 +80,32 @@ const GamePlay = () => {
   };
 
   const questionStyle = {
-    fontSize: '1.2em',
+    width: '50%',  // Resize the image to take up 50% of the container width
     marginBottom: '20px',
+    borderRadius: '10px',  // Add rounded corners to the image for a softer look
+    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',  // Add a slight shadow to make the image pop
     zIndex: 2,
   };
 
-  const answerStyle = {
-    fontSize: '1.2em',
-    marginTop: '20px',
+  const buttonStyle = {
+    fontSize: '1.5em',
+    padding: '15px 30px',
+    margin: '10px',
+    border: 'none',
+    borderRadius: '8px',
+    backgroundColor: '#fff',
+    color: '#333',
+    fontFamily: 'Roboto, sans-serif',
+    fontWeight: 'bold',
+    cursor: 'pointer',
+    transition: 'transform 0.3s ease, background-color 0.3s ease',
+    boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.2)',
     zIndex: 2,
+  };
+
+  const buttonHoverStyle = {
+    transform: 'scale(1.05)',
+    backgroundColor: '#2c3e50',
   };
 
   const videoStyle = {
@@ -95,6 +118,17 @@ const GamePlay = () => {
     zIndex: 1,
   };
 
+  // Handle button hover effect
+  const [hoveredButton, setHoveredButton] = useState(null);
+
+  const handleMouseEnter = (index) => {
+    setHoveredButton(index);
+  };
+
+  const handleMouseLeave = () => {
+    setHoveredButton(null);
+  };
+
   return (
     <div style={containerStyle}>
       <video style={videoStyle} autoPlay loop muted>
@@ -104,8 +138,20 @@ const GamePlay = () => {
       <h1 style={headingStyle}>Gameplay</h1>
       <p style={playerNameStyle}>Player: {playerName}</p>
       {question && <img src={question} alt="Question" style={questionStyle} />}
+      
+      {/* Render answers as buttons */}
       {displayedAnswers.map((answer, index) => (
-        <p key={index} style={answerStyle}>{answer}</p>
+        <button
+          key={index}
+          style={{
+            ...buttonStyle,
+            ...(hoveredButton === index ? buttonHoverStyle : {})
+          }}
+          onMouseEnter={() => handleMouseEnter(index)}
+          onMouseLeave={handleMouseLeave}
+        >
+          {answer}
+        </button>
       ))}
     </div>
   );
