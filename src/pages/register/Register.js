@@ -66,7 +66,7 @@ const RegistrationCopy = () => {
     setCh(event.target.checked);
   };
 
-  const handleSubmit = async(event) => {
+  const handleSubmit = async (event) => {
     const form = event.currentTarget;
 
     if (form.checkValidity() === false) {
@@ -93,7 +93,7 @@ const RegistrationCopy = () => {
       const response = await register(data);
       console.log("response", response);
       window.location.href = "/login";
-    } catch (error) { 
+    } catch (error) {
       console.log("error", error);
       toast.error("Register failed");
     }
@@ -178,7 +178,7 @@ const RegistrationCopy = () => {
                     />
                   </div>
                 </div>
-                <div className="register-4--31">
+                {/* <div className="register-4--31">
                   <div className="register-5--07">
                     <TextArea
                       label={"Address"}
@@ -187,24 +187,8 @@ const RegistrationCopy = () => {
                       onChange={handleAddressChange}
                     />
                   </div>
-                </div>
-                <div className="-div">
-                  <div className="register-6--0-group">
-                    <InputField
-                      label={"Postal Code"}
-                      type={"text"}
-                      value={postalCode}
-                      onChange={handlePostalCodeChange}
-                    />
-                    <InputSelect
-                      label={"City"}
-                      options={["Jaffna"]}
-                      value={city}
-                      onChange={handleCityChange}
-                    />
-                    {/* <InputSelect label={"State"} options={["Northern"]}/> */}
-                  </div>
-                </div>
+                </div> */}
+              
                 <div className="register-4--5-parent">
                   <div className="register-4--51">
                     <div className="register-5--08">
@@ -296,7 +280,7 @@ const RegistrationCopy = () => {
           </section>
         </main>
       </div>
-      <ToastContainer />  
+      <ToastContainer />
     </Form>
   );
 };
