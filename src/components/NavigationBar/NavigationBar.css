@@ -269,3 +269,7 @@ a:hover {
     background-color: #FFFFFF;
     color: #2ECC71 !important;
 }
+
+.depth-2-frame-2 {
+  position: fixed;
+}

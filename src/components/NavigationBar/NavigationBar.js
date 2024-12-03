@@ -1,6 +1,6 @@
 import "./NavigationBar.css";
 import iconuser from "../../Icons/icons8-user-circle-24.png"
-import NorthwayTitle from "../../Icons/NorthWay.jpg";
+const Gamelogo = process.env.PUBLIC_URL + '/Gamelogo.jpg';
 
 const NavigationBar = () => {
   const navigateToProfile = () => {
@@ -16,7 +16,7 @@ const NavigationBar = () => {
                 className="vector-0"
                 loading="lazy"
                 alt=""
-                //src={NorthwayTitle}
+                src={Gamelogo}
               />
               <div className="depth-7-frame-015" />
             </div>
@@ -37,7 +37,7 @@ const NavigationBar = () => {
           </div>
           <div className="depth-5-frame-11">
             <div className="depth-6-frame-016">
-              <div className="about-us">About Us</div>
+              <div className="about-us">LeaderBoard</div>
             </div>
           </div>
           <div className="depth-5-frame-2">

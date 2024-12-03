@@ -1,60 +1,89 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import '@fontsource/roboto';
+import '@fontsource/rock-salt';
 
-export default class Home extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      timeLeft: 600, // 10 minutes in seconds
-      timerRunning: false,
-      quizNumber: null,
-    };
-    this.timer = null;
-  }
+const Home = () => {
+  const navigate = useNavigate();
 
-  startTimer = () => {
-    this.setState({ timerRunning: true });
-    this.timer = setInterval(() => {
-      this.setState(prevState => {
-        if (prevState.timeLeft <= 1) {
-          clearInterval(this.timer);
-          this.setState({ timerRunning: false, timeLeft: 600 });
-          return { timeLeft: 600 };
-        }
-        return { timeLeft: prevState.timeLeft - 1 };
-      });
-    }, 1000);
+  const handleClick = () => {
+    // Navigate to the /gameplay route
+    navigate('/gameplay');
   };
 
-  fetchQuizNumber = async () => {
-    const randomNum = Math.floor(Math.random() * 10); // Generate a random number between 0 and 9
-    try {
-      const response = await fetch('https://marcconrad.com/uob/banana/api.php');
-      const data = await response.json();
-      const apiNum = data.solution;
-      const combinedNum = `${randomNum}${apiNum}`;
-      this.setState({ quizNumber: combinedNum });
-    } catch (error) {
-      console.error('Error fetching the API number:', error);
-    }
+  const containerStyle = {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '100vh',
+    background: 'linear-gradient(135deg, #4e73df, #1cc88a)',  // Gradient background
+    color: '#fff',
+    fontFamily: 'Roboto, sans-serif',
+    textAlign: 'center',
+    padding: '20px',
+    boxSizing: 'border-box',
+    overflow: 'hidden',
+    animation: 'fadeIn 2s ease-in-out',
   };
 
-  render() {
-    const { timeLeft, timerRunning, quizNumber } = this.state;
+  const headingStyle = {
+    fontSize: '3.5em',
+    marginBottom: '20px',
+    fontFamily: 'Rock Salt, cursive',  // Handwritten style for the heading
+    textShadow: '2px 2px 8px rgba(0, 0, 0, 0.3)',
+    letterSpacing: '2px',
+  };
 
-    return (
-      <div>
-        <h1>Home</h1>
-        {!timerRunning && (
-          <button onClick={this.startTimer}>Start Timer</button>
-        )}
-        {timerRunning && (
-          <div>
-            <p>Time left: {Math.floor(timeLeft / 60)}:{timeLeft % 60}</p>
-          </div>
-        )}
-        <button onClick={this.fetchQuizNumber}>Fetch Quiz Number</button>
-        {quizNumber && <p>Show quiz number: {quizNumber}</p>}
-      </div>
-    );
-  }
-}
+  const paragraphStyle = {
+    fontSize: '1.5em',
+    marginBottom: '30px',
+    fontWeight: '300',
+    maxWidth: '600px',
+    lineHeight: '1.6',
+  };
+
+  const imageStyle = {
+    width: '320px',
+    height: 'auto',
+    marginBottom: '30px',
+    borderRadius: '15px',
+    boxShadow: '0 4px 15px rgba(0, 0, 0, 0.2)',
+    transition: 'transform 0.3s ease-in-out',
+  };
+
+  return (
+    <div style={containerStyle}>
+      <h1 style={headingStyle}>Welcome to the Quiz Game!</h1>
+      <p style={paragraphStyle}>
+        Test your knowledge and have fun! Join now to challenge your brain with exciting quizzes on various topics.
+      </p>
+      <img
+        src={`${process.env.PUBLIC_URL}/homephoto.jpg`}
+        alt="Game"
+        style={imageStyle}
+      />
+      <button
+        style={{
+          backgroundColor: '#fff',
+          color: '#4e73df',
+          padding: '12px 30px',
+          borderRadius: '30px',
+          fontSize: '1.2em',
+          border: 'none',
+          cursor: 'pointer',
+          fontWeight: '600',
+          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+          transition: 'background-color 0.3s, transform 0.3s',
+        }}
+        onMouseEnter={(e) => e.target.style.backgroundColor = '#4e73df'}
+        onMouseLeave={(e) => e.target.style.backgroundColor = '#fff'}
+        onClick={handleClick}
+      >
+        Start Game
+      </button>
+    </div>
+  );
+};
+
+export default Home;

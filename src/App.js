@@ -1,5 +1,5 @@
 import './App.css';
-import TopHeader from './components/TopHeader/TopHeader';
+
 import NavigationBar from './components/NavigationBar/NavigationBar';
 import Footer from './components/Footer/Footer';
 import React, { useEffect } from 'react';
@@ -14,7 +14,7 @@ function App() {
   
   return (
     <div className="App">
-      <TopHeader />
+
       <NavigationBar />
       <BrowserRouter>
         <Routes>
