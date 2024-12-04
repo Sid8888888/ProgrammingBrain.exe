@@ -17,6 +17,7 @@ const GamePlay = () => {
   const [displayedAnswers, setDisplayedAnswers] = useState([]);
   const [timeLeft, setTimeLeft] = useState(900); // 15 minutes in seconds
   const [score, setScore] = useState(0); // Initialize score
+  const [EditedArray, setEditedArray] = useState([]);
 
   // Fetch a new question from the API
   const fetchQuestion = async () => {
@@ -37,6 +38,20 @@ const GamePlay = () => {
         const randomIndex = Math.floor(Math.random() * set.length); 
         return set[randomIndex]; 
       });
+
+      const arrayOfA = answerSets.map(set => {
+        const randomIndex = Math.floor(Math.random() * set.length); 
+        const data = {
+          id: set,
+          value: set[randomIndex]
+        }
+       
+        return data; 
+      });
+
+      setEditedArray(arrayOfA)
+
+      console.log('Array of A:', arrayOfA);
 
       setDisplayedAnswers(selectedAnswers);  // Update the displayed answers
     } catch (error) {
@@ -283,13 +298,13 @@ const GamePlay = () => {
       <div style={answerContainerStyle}>
         <Container>
           <Row>
-            {displayedAnswers.map((answer, index) => (
+            {EditedArray.map((answer, index) => (
               <Col key={index}>
                 <button
                   style={buttonStyle}
-                  onClick={() => handleAnswerClick(answer)}  // Pass the specific answer here
+                  onClick={() => handleAnswerClick(answer.id)}  // Pass the specific answer here
                 >
-                  <span style={answerTextStyle}>{answer}</span>
+                  <span style={answerTextStyle}>{answer.value}</span>
                 </button>
               </Col>
             ))}
