@@ -3,13 +3,21 @@ import { useNavigate } from 'react-router-dom';
 import '@fontsource/roboto';
 import '@fontsource/rock-salt';
 import home from "../../Icons/home.jpg"
+import Cookies from 'universal-cookie';
 
 const Home = () => {
   const navigate = useNavigate();
 
   const handleClick = () => {
     // Navigate to the /gameplay route
-    navigate('/gameplay');
+    const cookies = new Cookies();
+    const customerId = cookies.get('customerId');
+    if (!customerId) {
+      navigate('/login');
+      return;
+    } else {
+      navigate('/gameplay');
+    }
   };
 const containerStyle = {
     display: 'flex',

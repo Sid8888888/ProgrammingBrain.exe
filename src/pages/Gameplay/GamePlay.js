@@ -16,7 +16,7 @@ const GamePlay = () => {
   const [solution, setSolution] = useState(null);
   const [displayedAnswers, setDisplayedAnswers] = useState([]);
   const [timeLeft, setTimeLeft] = useState(900); // 15 minutes in seconds
-  const [score, setScore] = useState(0); // Player score
+  const [score, setScore] = useState(0); // Initialize score
 
   // Fetch a new question from the API
   const fetchQuestion = async () => {
@@ -25,7 +25,7 @@ const GamePlay = () => {
       const data = await response.json();
       
       setQuestion(data.question); 
-      setSolution(data.solution);  
+      setSolution(parseInt(data.solution, 10));  // Convert solution to an integer
 
       const solutionNumber = parseInt(data.solution, 10);
       
@@ -38,9 +38,7 @@ const GamePlay = () => {
         return set[randomIndex]; 
       });
 
-      setDisplayedAnswers(selectedAnswers);
-    
-      setTimeLeft(900);
+      setDisplayedAnswers(selectedAnswers);  // Update the displayed answers
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -64,6 +62,49 @@ const GamePlay = () => {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
     return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+  };
+
+  // Handle answer click event (using explicit if conditions)
+  const handleAnswerClick = (clickedAnswer) => {
+    let updatedScore = score;
+
+    console.log('Solution:', solution);
+    console.log('Clicked Answer:', clickedAnswer);
+
+    // Explicit if conditions to check if the clicked answer matches the solution
+    if (solution === 0 && clickedAnswer === Answer0) {
+      updatedScore += 5;
+    } else if (solution === 1 && clickedAnswer === Answer1) {
+      updatedScore += 5;
+    } else if (solution === 2 && clickedAnswer === Answer2) {
+      updatedScore += 5;
+    } else if (solution === 3 && clickedAnswer === Answer3) {
+      updatedScore += 5;
+    } else if (solution === 4 && clickedAnswer === Answer4) {
+      updatedScore += 5;
+    } else if (solution === 5 && clickedAnswer === Answer5) {
+      updatedScore += 5;
+    } else if (solution === 6 && clickedAnswer === Answer6) {
+      updatedScore += 5;
+    } else if (solution === 7 && clickedAnswer === Answer7) {
+      updatedScore += 5;
+    } else if (solution === 8 && clickedAnswer === Answer8) {
+      updatedScore += 5;
+    } else if (solution === 9 && clickedAnswer === Answer9) {
+      updatedScore += 5;
+    } else {
+      updatedScore -= 4; // If clicked answer is wrong
+    }
+
+    setScore(updatedScore); // Update the score
+    fetchQuestion();  // Fetch a new question after answering
+  };
+
+  // Handle leave button click event
+  const handleLeaveClick = () => {
+    let updatedScore = score - 1; // Deduct 1 point for skipping
+    setScore(updatedScore); // Update the score
+    fetchQuestion(); // Fetch a new question
   };
 
   const containerStyle = {
@@ -178,20 +219,18 @@ const GamePlay = () => {
     border: '2px solid #fff', 
   };
 
-  const scoreStyle = {
+  const scoreBoxStyle = {
     position: 'absolute',
-    top: '150px',  
+    top: '70px',
     right: '20px',
-    background: 'linear-gradient(145deg, #004080, #0066cc)',  
+    background: 'rgba(0, 0, 0, 0.5)',
     color: '#fff',
-    padding: '20px 40px',
-    fontSize: '2.2em', 
+    padding: '20px',
+    fontSize: '1.8em',
     fontWeight: 'bold',
-    borderRadius: '20px',
+    borderRadius: '10px',
     boxShadow: '5px 5px 15px rgba(0, 0, 0, 0.3)',
     zIndex: 3,
-    letterSpacing: '1px',
-    border: '2px solid #fff', 
   };
 
   const answerContainerStyle = {
@@ -203,39 +242,12 @@ const GamePlay = () => {
   };
 
   const answerTextStyle = {
-    // Ensure long lines break correctly
     fontFamily: 'monospace',  // Use monospace font for code-like answers
     fontSize: '1.1em',  // Slightly larger font for readability
     lineHeight: '1.5',
     textAlign: 'center',
     padding: '10px',
-    
     borderRadius: '8px',
-    
-  };
-
-  const [hoveredButton, setHoveredButton] = useState(null);
-
-  const handleMouseEnter = (index) => {
-    setHoveredButton(index);
-  };
-
-  const handleMouseLeave = () => {
-    setHoveredButton(null);
-  };
-
-  const handleAnswerClick = (answer) => {
-    const match = answer.match(/\d+$/);
-    if (match && match[0] === solution) {
-      setScore(score + 5);
-    } else {
-      setScore(score - 4);
-    }
-    fetchQuestion();
-  };
-
-  const handleLeaveClick = () => {
-    fetchQuestion();
   };
 
   return (
@@ -253,41 +265,37 @@ const GamePlay = () => {
         {formatTime(timeLeft)}
       </div>
 
-      {/* Player Score */}
-      <div style={scoreStyle}>
+      {/* Score Box */}
+      <div style={scoreBoxStyle}>
         Score: {score}
       </div>
 
+      {/* Skip Button */}
       <button
         style={leaveButtonStyle}
-        onClick={handleLeaveClick}  // When clicked, fetch a new question
+        onClick={handleLeaveClick}
       >
         Skip Question
         <span style={arrowStyle}>→</span>  
       </button>
-      
+
       {/* Render answers horizontally */}
       <div style={answerContainerStyle}>
-      <Container>
-      <Row>
-      {displayedAnswers.map((answer, index) => (
-        <Col key={index}>
-        <button
-            style={{
-              ...buttonStyle,
-              ...(hoveredButton === index ? buttonHoverStyle : {}),
-            }}
-            onMouseEnter={() => handleMouseEnter(index)}
-            onMouseLeave={handleMouseLeave}
-            onClick={() => handleAnswerClick(answer)}  // When an answer is clicked, fetch a new question
-          >
-            <span style={answerTextStyle}>{answer}</span>
-          </button>
-        </Col>
-        ))}
-      </Row>
-    </Container>
-    </div>
+        <Container>
+          <Row>
+            {displayedAnswers.map((answer, index) => (
+              <Col key={index}>
+                <button
+                  style={buttonStyle}
+                  onClick={() => handleAnswerClick(answer)}  // Pass the specific answer here
+                >
+                  <span style={answerTextStyle}>{answer}</span>
+                </button>
+              </Col>
+            ))}
+          </Row>
+        </Container>
+      </div>
     </div>
   );
 };

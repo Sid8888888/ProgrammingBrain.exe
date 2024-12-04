@@ -5,6 +5,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
 import { login } from "../../api/auth";
+import Cookies from 'universal-cookie';
 
 const Login = () => {
   const [validated, setValidated] = useState(false);
@@ -44,8 +45,11 @@ const Login = () => {
         const customerId = localStorage.getItem("customerId");
         console.log("cus", customerId);
 
+        const cookies = new Cookies();
+        cookies.set('customerEmail', response.data.email, { path: '/' });
+        cookies.set('customerId', response.data._id, { path: '/' });
 
-        window.location.href = "/";
+        window.location.href = "/gameplay";
       }
     } catch (error) {
       console.log("error", error);
