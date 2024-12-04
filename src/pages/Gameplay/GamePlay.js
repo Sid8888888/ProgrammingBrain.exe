@@ -173,42 +173,9 @@ const GamePlay = () => {
     zIndex: 2,
   };
 
-  const buttonStyle = {
-    fontSize: '1.2em',
-    padding: '15px 30px',
-    margin: '10px',
-    border: 'none',
-    borderRadius: '8px',
-    backgroundColor: '#fff',
-    color: '#333',
-    fontFamily: 'Roboto, sans-serif',
-    fontWeight: 'bold',
-    cursor: 'pointer',
-    transition: 'transform 0.3s ease, background-color 0.3s ease',
-    boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.2)',
-    zIndex: 2,
-  };
+  
 
-  const buttonHoverStyle = {
-    transform: 'scale(1.05)',
-    backgroundColor: '#2c3e50',
-    color: '#fff',
-  };
 
-  const leaveButtonStyle = {
-    ...buttonStyle,
-    backgroundColor: '#e74c3c',
-    color: '#fff',
-    fontSize: '1.2em',
-    position: 'absolute',
-    top: '29%',
-    right: '0',
-    marginRight: '20px',
-    transform: 'translateY(-50%)',
-    paddingRight: '20px',  
-    alignItems: 'center',  
-    justifyContent: 'center' 
-  };
 
   const arrowStyle = {
     marginLeft: '10px', 
@@ -255,22 +222,110 @@ const GamePlay = () => {
     zIndex: 3,
   };
 
-  const answerContainerStyle = {
-    display: 'flex',  // Make the answers display horizontally
-    justifyContent: 'center',  // Center the answers
-    flexWrap: 'wrap',  // Wrap answers if they overflow
-    gap: '20px',  // Space out answers a bit more
-    zIndex: 2,  // Ensure answers are on top of other elements
+  const buttonStyle = {
+    fontSize: '1.2em',
+    padding: '15px 30px',
+    margin: '10px',
+    border: 'none',
+    borderRadius: '8px',
+    backgroundColor: '#fff',
+    color: '#333',
+    fontFamily: 'Roboto, sans-serif',
+    fontWeight: 'bold',
+    cursor: 'pointer',
+    transition: 'transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease',
+    boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.2)',
+    zIndex: 2,
+  
+    // Hover effect for answer buttons
+    ':hover': {
+      transform: 'scale(1.05)',  // Slightly increase the size on hover
+      backgroundColor: '#f0f0f0',  // Light grey background on hover
+      boxShadow: '0px 6px 12px rgba(0, 0, 0, 0.3)',  // Larger shadow on hover
+    },
+  
+    // Active/pressed state for more interaction feedback
+    ':active': {
+      transform: 'scale(1.02)',  // Slightly smaller than hover for active state
+      boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.2)',  // Return to normal shadow when pressed
+    },
   };
-
+  
+  const leaveButtonStyle = {
+    ...buttonStyle,
+    backgroundColor: '#e74c3c',  // Red color for the skip button
+    color: '#fff',
+    fontSize: '1.2em',
+    position: 'absolute',
+    top: '29%',
+    right: '0',
+    marginRight: '20px',
+    transform: 'translateY(-50%)',
+    paddingRight: '20px',
+    alignItems: 'center',
+    justifyContent: 'center',
+  
+    // Hover effect for leave button (skip question)
+    ':hover': {
+      transform: 'scale(1.05)',
+      backgroundColor: '#c0392b',  // Darker red when hovered
+      boxShadow: '0px 6px 12px rgba(0, 0, 0, 0.3)',  // Larger shadow
+    },
+  
+    // Active state for pressed effect
+    ':active': {
+      transform: 'scale(1.02)',  // Slightly smaller when clicked
+      boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.2)',  // Normal shadow when pressed
+    },
+  };
+  
+  const answerContainerStyle = {
+    display: 'flex',
+    justifyContent: 'center',
+    flexWrap: 'wrap',
+    gap: '20px',
+    zIndex: 2,
+    transition: 'background-color 0.3s ease',  // Smooth transition for background color change
+  };
+  
   const answerTextStyle = {
-    fontFamily: 'monospace',  // Use monospace font for code-like answers
-    fontSize: '1.1em',  // Slightly larger font for readability
+    fontFamily: 'monospace',
+    fontSize: '1.1em',
     lineHeight: '1.5',
     textAlign: 'center',
     padding: '10px',
     borderRadius: '8px',
+    cursor: 'pointer',
+    transition: 'transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease',
+    backgroundColor: '#fff',
+    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',  // Subtle default shadow
   };
+  
+  // Hover effect for answer options
+  const answerTextHoverStyle = {
+    ...answerTextStyle,
+    ':hover': {
+      transform: 'scale(1.05)',  // Slightly scale up on hover
+      backgroundColor: '#f0f0f0',  // Change background color on hover
+      boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',  // Add a stronger shadow on hover for a "lifted" effect
+    },
+  };
+  
+  // Hover effect for the container (optional)
+  const answerContainerHoverStyle = {
+    ...answerContainerStyle,
+    ':hover': {
+      backgroundColor: '#f0f0f0',  // Light grey background color when hovered
+    },
+  };
+  
+  
+  
+ 
+  
+ 
+  
+  
 
   return (
     <div style={containerStyle}>

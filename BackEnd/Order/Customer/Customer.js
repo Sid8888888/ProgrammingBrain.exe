@@ -33,12 +33,13 @@ const create = async (req, res) => {
       }
     });
 
-    // Send verification email (example)
+    const verificationUrl = `http://localhost:4000/verify-email?token=${verificationToken}`;
+
     let mailOptions = {
       from: process.env.EMAIL_USERNAME,
       to: email,
       subject: 'Verify your email',
-      text: `Please verify your email by clicking the following link: http://localhost/4000:verify-email?token=${verificationToken}`
+      text: `Please verify your email by clicking the following link: ${verificationUrl}`
     };
 
     await transporter.sendMail(mailOptions);

@@ -20,6 +20,10 @@ const orderschema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    highscore: {
+      type: Number,
+      required: false,
+    },
     verificationToken: {
       type: String,
     },
