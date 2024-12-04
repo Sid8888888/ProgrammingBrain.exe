@@ -6,6 +6,10 @@ import {
   Answer5, Answer6, Answer7, Answer8, Answer9 
 } from './GamePlayAnswers';
 
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+
 const GamePlay = () => {
   const [playerName, setPlayerName] = useState('Player 1');
   const [question, setQuestion] = useState(null);
@@ -19,26 +23,22 @@ const GamePlay = () => {
       const response = await fetch('https://marcconrad.com/uob/banana/api.php');
       const data = await response.json();
       
-      setQuestion(data.question);  // image URL or data for question
-      setSolution(data.solution);  // the correct solution
+      setQuestion(data.question); 
+      setSolution(data.solution);  
 
-      // Determine if the solution is even or odd
       const solutionNumber = parseInt(data.solution, 10);
       
-      // Even solutions should pick answers from Answer0, Answer2, Answer4, Answer6, Answer8
-      // Odd solutions should pick answers from Answer1, Answer3, Answer5, Answer7, Answer9
       const answerSets = solutionNumber % 2 === 0
         ? [Answer0, Answer2, Answer4, Answer6, Answer8]
         : [Answer1, Answer3, Answer5, Answer7, Answer9];
 
-      // Randomly select one answer from each of the 5 answer sets (each containing 10 possible answers)
       const selectedAnswers = answerSets.map(set => {
-        const randomIndex = Math.floor(Math.random() * set.length); // Random index from each set
-        return set[randomIndex];  // Select the answer at the random index
+        const randomIndex = Math.floor(Math.random() * set.length); 
+        return set[randomIndex]; 
       });
 
       setDisplayedAnswers(selectedAnswers);
-      // Reset the timer to 15 minutes
+    
       setTimeLeft(900);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -49,18 +49,18 @@ const GamePlay = () => {
     fetchQuestion();
   }, []);
 
-  // Timer effect: update every second
+
   useEffect(() => {
-    if (timeLeft <= 0) return; // Stop timer when it reaches 0
+    if (timeLeft <= 0) return; 
 
     const timer = setInterval(() => {
       setTimeLeft((prevTime) => prevTime - 1);
     }, 1000);
 
-    return () => clearInterval(timer); // Cleanup interval on unmount
+    return () => clearInterval(timer); 
   }, [timeLeft]);
 
-  // Format time in MM:SS format
+  
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
@@ -87,7 +87,7 @@ const GamePlay = () => {
     fontSize: '3.5em',
     marginBottom: '0px',
     marginTop: '-100px',
-    fontFamily: 'Rock Salt, cursive',  // Handwritten style for the heading
+    fontFamily: 'Rock Salt, cursive', 
     textShadow: '2px 2px 8px rgba(0, 0, 0, 0.3)',
     letterSpacing: '2px',
     zIndex: 2,
@@ -103,11 +103,11 @@ const GamePlay = () => {
   };
 
   const questionStyle = {
-    width: '50%',  // Set width to 50% of the container
-    maxWidth: '600px',  // Set a max width for the image to avoid it becoming too large
+    width: '50%',  
+    maxWidth: '600px', 
     marginBottom: '20px',
-    borderRadius: '10px',  // Add rounded corners to the image for a softer look
-    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',  // Add a slight shadow to make the image pop
+    borderRadius: '10px', 
+    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',  
     zIndex: 2,
   };
 
@@ -142,15 +142,15 @@ const GamePlay = () => {
     top: '29%',
     right: '0',
     marginRight: '20px',
-    transform: 'translateY(-50%)', // Vertically center it along the right side
-    paddingRight: '20px',  // Add some space for the arrow
-    alignItems: 'center',  // Align text and arrow in the center
-    justifyContent: 'center'  // Align text and arrow in the center
+    transform: 'translateY(-50%)',
+    paddingRight: '20px',  
+    alignItems: 'center',  
+    justifyContent: 'center' 
   };
 
   const arrowStyle = {
-    marginLeft: '10px', // Add space between text and arrow
-    fontSize: '1.8em',  // Make the arrow slightly larger
+    marginLeft: '10px', 
+    fontSize: '1.8em'
   };
 
   const videoStyle = {
@@ -165,18 +165,38 @@ const GamePlay = () => {
 
   const countdownStyle = {
     position: 'absolute',
-    top: '70px',  // Adjusted to move the timer a bit lower
+    top: '70px',  
     right: '20px',
-    background: 'linear-gradient(145deg, #004080, #0066cc)',  // Dark blue gradient
+    background: 'linear-gradient(145deg, #004080, #0066cc)',  
     color: '#fff',
     padding: '20px 40px',
-    fontSize: '2.2em',  // Medium size for the timer
+    fontSize: '2.2em', 
     fontWeight: 'bold',
     borderRadius: '20px',
     boxShadow: '5px 5px 15px rgba(0, 0, 0, 0.3)',
     zIndex: 3,
     letterSpacing: '1px',
-    border: '2px solid #fff', // Adding a white border to the timer
+    border: '2px solid #fff', 
+  };
+
+  const answerContainerStyle = {
+    display: 'flex',  // Make the answers display horizontally
+    justifyContent: 'center',  // Center the answers
+    flexWrap: 'wrap',  // Wrap answers if they overflow
+    gap: '20px',  // Space out answers a bit more
+    zIndex: 2,  // Ensure answers are on top of other elements
+  };
+
+  const answerTextStyle = {
+    // Ensure long lines break correctly
+    fontFamily: 'monospace',  // Use monospace font for code-like answers
+    fontSize: '1.1em',  // Slightly larger font for readability
+    lineHeight: '1.5',
+    textAlign: 'center',
+    padding: '10px',
+    
+    borderRadius: '8px',
+    
   };
 
   const [hoveredButton, setHoveredButton] = useState(null);
@@ -219,25 +239,32 @@ const GamePlay = () => {
         onClick={handleLeaveClick}  // When clicked, fetch a new question
       >
         Skip Question
-        <span style={arrowStyle}>→</span>  {/* Right arrow added here */}
+        <span style={arrowStyle}>→</span>  
       </button>
       
-      {/* Render answers as buttons */}
+      {/* Render answers horizontally */}
+      <div style={answerContainerStyle}>
+      <Container>
+      <Row>
       {displayedAnswers.map((answer, index) => (
+        <Col>
         <button
-          key={index}
-          style={{
-            ...buttonStyle,
-            ...(hoveredButton === index ? buttonHoverStyle : {})
-          }}
-          onMouseEnter={() => handleMouseEnter(index)}
-          onMouseLeave={handleMouseLeave}
-          onClick={handleAnswerClick}  // When an answer is clicked, fetch a new question
-        >
-          {answer}
-        </button>
-      ))}
-
+            key={index}
+            style={{
+              ...buttonStyle,
+              ...(hoveredButton === index ? buttonHoverStyle : {}),
+            }}
+            onMouseEnter={() => handleMouseEnter(index)}
+            onMouseLeave={handleMouseLeave}
+            onClick={handleAnswerClick}  // When an answer is clicked, fetch a new question
+          >
+            <span style={answerTextStyle}>{answer}</span>
+          </button>
+        </Col>
+        ))}
+      </Row>
+    </Container>
+    </div>
     </div>
   );
 };
