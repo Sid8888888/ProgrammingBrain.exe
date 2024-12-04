@@ -22,12 +22,13 @@ const containerStyle = {
     textAlign: 'center',
     // padding: '20px',
     boxSizing: 'border-box',
-    overflow: 'hidden',
+    // overflow: 'hidden',
     animation: 'fadeIn 2s ease-in-out',
     backgroundImage: `url(${home})`,
     backgroundPosition: 'center',
     backgroundSize: 'cover', // Ensures the image covers the entire container
     width: '100%',
+    position: 'relative',
 };
 
   const headingStyle = {
@@ -37,7 +38,8 @@ const containerStyle = {
       textShadow: '2px 2px 8px rgba(0, 0, 0, 0.3)',
       fontWeight: 'bold', // Make the text bold
       WebkitTextStroke: '1px black', // Add black outline
-      paddingTop: '70px',
+      paddingTop: '85px',
+      marginTop: '15px',
   };
 
    const paragraphStyle = {
@@ -46,18 +48,18 @@ const containerStyle = {
       fontWeight: 'bold', // Make the text bold
       maxWidth: '600px',
       lineHeight: '1.6',
-      WebkitTextStroke: '1px black', // Add black outline
-      color: '#fff', // Set text color to white
-      textShadow: `
-          -1px -1px 0 #000,  
-           1px -1px 0 #000,
-          -1px  1px 0 #000,
-           1px  1px 0 #000,
-          -2px -2px 0 #fff,  
-           2px -2px 0 #fff,
-          -2px  2px 0 #fff,
-           2px  2px 0 #fff
-      `, // Add white outline
+      // WebkitTextStroke: '1px black', // Add black outline
+      color: '#d7dbdd', // Set text color to white
+      // textShadow: `
+      //     -1px -1px 0 #000,  
+      //      1px -1px 0 #000,
+      //     -1px  1px 0 #000,
+      //      1px  1px 0 #000,
+      //     -2px -2px 0 #fff,  
+      //      2px -2px 0 #fff,
+      //     -2px  2px 0 #fff,
+      //      2px  2px 0 #fff
+      // `, // Add white outline
   };
 
   const imageStyle = {

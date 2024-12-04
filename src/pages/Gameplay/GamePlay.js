@@ -13,36 +13,39 @@ const GamePlay = () => {
   const [displayedAnswers, setDisplayedAnswers] = useState([]);
   const [timeLeft, setTimeLeft] = useState(900); // 15 minutes in seconds
 
+  // Fetch a new question from the API
+  const fetchQuestion = async () => {
+    try {
+      const response = await fetch('https://marcconrad.com/uob/banana/api.php');
+      const data = await response.json();
+      
+      setQuestion(data.question);  // image URL or data for question
+      setSolution(data.solution);  // the correct solution
+
+      // Determine if the solution is even or odd
+      const solutionNumber = parseInt(data.solution, 10);
+      
+      // Even solutions should pick answers from Answer0, Answer2, Answer4, Answer6, Answer8
+      // Odd solutions should pick answers from Answer1, Answer3, Answer5, Answer7, Answer9
+      const answerSets = solutionNumber % 2 === 0
+        ? [Answer0, Answer2, Answer4, Answer6, Answer8]
+        : [Answer1, Answer3, Answer5, Answer7, Answer9];
+
+      // Randomly select one answer from each of the 5 answer sets (each containing 10 possible answers)
+      const selectedAnswers = answerSets.map(set => {
+        const randomIndex = Math.floor(Math.random() * set.length); // Random index from each set
+        return set[randomIndex];  // Select the answer at the random index
+      });
+
+      setDisplayedAnswers(selectedAnswers);
+      // Reset the timer to 15 minutes
+      setTimeLeft(900);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
   useEffect(() => {
-    const fetchQuestion = async () => {
-      try {
-        const response = await fetch('https://marcconrad.com/uob/banana/api.php');
-        const data = await response.json();
-        
-        setQuestion(data.question);  // image URL or data for question
-        setSolution(data.solution);  // the correct solution
-
-        // Determine if the solution is even or odd
-        const solutionNumber = parseInt(data.solution, 10);
-        
-        // Even solutions should pick answers from Answer0, Answer2, Answer4, Answer6, Answer8
-        // Odd solutions should pick answers from Answer1, Answer3, Answer5, Answer7, Answer9
-        const answerSets = solutionNumber % 2 === 0
-          ? [Answer0, Answer2, Answer4, Answer6, Answer8]
-          : [Answer1, Answer3, Answer5, Answer7, Answer9];
-
-        // Randomly select one answer from each of the 5 answer sets (each containing 10 possible answers)
-        const selectedAnswers = answerSets.map(set => {
-          const randomIndex = Math.floor(Math.random() * set.length); // Random index from each set
-          return set[randomIndex];  // Select the answer at the random index
-        });
-
-        setDisplayedAnswers(selectedAnswers);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
     fetchQuestion();
   }, []);
 
@@ -82,7 +85,8 @@ const GamePlay = () => {
 
   const headingStyle = {
     fontSize: '3.5em',
-    marginBottom: '20px',
+    marginBottom: '0px',
+    marginTop: '-100px',
     fontFamily: 'Rock Salt, cursive',  // Handwritten style for the heading
     textShadow: '2px 2px 8px rgba(0, 0, 0, 0.3)',
     letterSpacing: '2px',
@@ -99,8 +103,8 @@ const GamePlay = () => {
   };
 
   const questionStyle = {
-    width: '30%',  // Resize the image to take up 30% of the container width (you can adjust this percentage as needed)
-    maxWidth: '500px',  // Optionally set a maximum width for the image
+    width: '50%',  // Set width to 50% of the container
+    maxWidth: '600px',  // Set a max width for the image to avoid it becoming too large
     marginBottom: '20px',
     borderRadius: '10px',  // Add rounded corners to the image for a softer look
     boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',  // Add a slight shadow to make the image pop
@@ -108,7 +112,7 @@ const GamePlay = () => {
   };
 
   const buttonStyle = {
-    fontSize: '1.5em',
+    fontSize: '1.2em',
     padding: '15px 30px',
     margin: '10px',
     border: 'none',
@@ -126,6 +130,27 @@ const GamePlay = () => {
   const buttonHoverStyle = {
     transform: 'scale(1.05)',
     backgroundColor: '#2c3e50',
+    color: '#fff',
+  };
+
+  const leaveButtonStyle = {
+    ...buttonStyle,
+    backgroundColor: '#e74c3c',
+    color: '#fff',
+    fontSize: '1.2em',
+    position: 'absolute',
+    top: '29%',
+    right: '0',
+    marginRight: '20px',
+    transform: 'translateY(-50%)', // Vertically center it along the right side
+    paddingRight: '20px',  // Add some space for the arrow
+    alignItems: 'center',  // Align text and arrow in the center
+    justifyContent: 'center'  // Align text and arrow in the center
+  };
+
+  const arrowStyle = {
+    marginLeft: '10px', // Add space between text and arrow
+    fontSize: '1.8em',  // Make the arrow slightly larger
   };
 
   const videoStyle = {
@@ -138,18 +163,6 @@ const GamePlay = () => {
     zIndex: 1,
   };
 
-  // Handle button hover effect
-  const [hoveredButton, setHoveredButton] = useState(null);
-
-  const handleMouseEnter = (index) => {
-    setHoveredButton(index);
-  };
-
-  const handleMouseLeave = () => {
-    setHoveredButton(null);
-  };
-
-  // Dark blue timer style
   const countdownStyle = {
     position: 'absolute',
     top: '70px',  // Adjusted to move the timer a bit lower
@@ -166,6 +179,26 @@ const GamePlay = () => {
     border: '2px solid #fff', // Adding a white border to the timer
   };
 
+  const [hoveredButton, setHoveredButton] = useState(null);
+
+  const handleMouseEnter = (index) => {
+    setHoveredButton(index);
+  };
+
+  const handleMouseLeave = () => {
+    setHoveredButton(null);
+  };
+
+  const handleAnswerClick = () => {
+    // Refresh the API to get a new question when an answer is clicked
+    fetchQuestion();
+  };
+
+  const handleLeaveClick = () => {
+    // Refresh the API to get a new question when the "Leave" button is clicked
+    fetchQuestion();
+  };
+
   return (
     <div style={containerStyle}>
       <video style={videoStyle} autoPlay loop muted>
@@ -180,6 +213,14 @@ const GamePlay = () => {
       <div style={countdownStyle}>
         {formatTime(timeLeft)}
       </div>
+
+      <button
+        style={leaveButtonStyle}
+        onClick={handleLeaveClick}  // When clicked, fetch a new question
+      >
+        Skip Question
+        <span style={arrowStyle}>→</span>  {/* Right arrow added here */}
+      </button>
       
       {/* Render answers as buttons */}
       {displayedAnswers.map((answer, index) => (
@@ -191,10 +232,12 @@ const GamePlay = () => {
           }}
           onMouseEnter={() => handleMouseEnter(index)}
           onMouseLeave={handleMouseLeave}
+          onClick={handleAnswerClick}  // When an answer is clicked, fetch a new question
         >
           {answer}
         </button>
       ))}
+
     </div>
   );
 };
