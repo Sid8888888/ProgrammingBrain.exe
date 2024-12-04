@@ -16,6 +16,7 @@ const GamePlay = () => {
   const [solution, setSolution] = useState(null);
   const [displayedAnswers, setDisplayedAnswers] = useState([]);
   const [timeLeft, setTimeLeft] = useState(900); // 15 minutes in seconds
+  const [score, setScore] = useState(0); // Player score
 
   // Fetch a new question from the API
   const fetchQuestion = async () => {
@@ -49,7 +50,6 @@ const GamePlay = () => {
     fetchQuestion();
   }, []);
 
-
   useEffect(() => {
     if (timeLeft <= 0) return; 
 
@@ -60,7 +60,6 @@ const GamePlay = () => {
     return () => clearInterval(timer); 
   }, [timeLeft]);
 
-  
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
@@ -179,6 +178,22 @@ const GamePlay = () => {
     border: '2px solid #fff', 
   };
 
+  const scoreStyle = {
+    position: 'absolute',
+    top: '150px',  
+    right: '20px',
+    background: 'linear-gradient(145deg, #004080, #0066cc)',  
+    color: '#fff',
+    padding: '20px 40px',
+    fontSize: '2.2em', 
+    fontWeight: 'bold',
+    borderRadius: '20px',
+    boxShadow: '5px 5px 15px rgba(0, 0, 0, 0.3)',
+    zIndex: 3,
+    letterSpacing: '1px',
+    border: '2px solid #fff', 
+  };
+
   const answerContainerStyle = {
     display: 'flex',  // Make the answers display horizontally
     justifyContent: 'center',  // Center the answers
@@ -209,13 +224,17 @@ const GamePlay = () => {
     setHoveredButton(null);
   };
 
-  const handleAnswerClick = () => {
-    // Refresh the API to get a new question when an answer is clicked
+  const handleAnswerClick = (answer) => {
+    const match = answer.match(/\d+$/);
+    if (match && match[0] === solution) {
+      setScore(score + 5);
+    } else {
+      setScore(score - 4);
+    }
     fetchQuestion();
   };
 
   const handleLeaveClick = () => {
-    // Refresh the API to get a new question when the "Leave" button is clicked
     fetchQuestion();
   };
 
@@ -234,6 +253,11 @@ const GamePlay = () => {
         {formatTime(timeLeft)}
       </div>
 
+      {/* Player Score */}
+      <div style={scoreStyle}>
+        Score: {score}
+      </div>
+
       <button
         style={leaveButtonStyle}
         onClick={handleLeaveClick}  // When clicked, fetch a new question
@@ -247,16 +271,15 @@ const GamePlay = () => {
       <Container>
       <Row>
       {displayedAnswers.map((answer, index) => (
-        <Col>
+        <Col key={index}>
         <button
-            key={index}
             style={{
               ...buttonStyle,
               ...(hoveredButton === index ? buttonHoverStyle : {}),
             }}
             onMouseEnter={() => handleMouseEnter(index)}
             onMouseLeave={handleMouseLeave}
-            onClick={handleAnswerClick}  // When an answer is clicked, fetch a new question
+            onClick={() => handleAnswerClick(answer)}  // When an answer is clicked, fetch a new question
           >
             <span style={answerTextStyle}>{answer}</span>
           </button>
