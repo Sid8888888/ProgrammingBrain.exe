@@ -11,6 +11,7 @@ const GamePlay = () => {
   const [question, setQuestion] = useState(null);
   const [solution, setSolution] = useState(null);
   const [displayedAnswers, setDisplayedAnswers] = useState([]);
+  const [timeLeft, setTimeLeft] = useState(900); // 15 minutes in seconds
 
   useEffect(() => {
     const fetchQuestion = async () => {
@@ -44,6 +45,24 @@ const GamePlay = () => {
 
     fetchQuestion();
   }, []);
+
+  // Timer effect: update every second
+  useEffect(() => {
+    if (timeLeft <= 0) return; // Stop timer when it reaches 0
+
+    const timer = setInterval(() => {
+      setTimeLeft((prevTime) => prevTime - 1);
+    }, 1000);
+
+    return () => clearInterval(timer); // Cleanup interval on unmount
+  }, [timeLeft]);
+
+  // Format time in MM:SS format
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+  };
 
   const containerStyle = {
     position: 'relative',
@@ -80,7 +99,8 @@ const GamePlay = () => {
   };
 
   const questionStyle = {
-    width: '50%',  // Resize the image to take up 50% of the container width
+    width: '30%',  // Resize the image to take up 30% of the container width (you can adjust this percentage as needed)
+    maxWidth: '500px',  // Optionally set a maximum width for the image
     marginBottom: '20px',
     borderRadius: '10px',  // Add rounded corners to the image for a softer look
     boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',  // Add a slight shadow to make the image pop
@@ -129,6 +149,23 @@ const GamePlay = () => {
     setHoveredButton(null);
   };
 
+  // Dark blue timer style
+  const countdownStyle = {
+    position: 'absolute',
+    top: '70px',  // Adjusted to move the timer a bit lower
+    right: '20px',
+    background: 'linear-gradient(145deg, #004080, #0066cc)',  // Dark blue gradient
+    color: '#fff',
+    padding: '20px 40px',
+    fontSize: '2.2em',  // Medium size for the timer
+    fontWeight: 'bold',
+    borderRadius: '20px',
+    boxShadow: '5px 5px 15px rgba(0, 0, 0, 0.3)',
+    zIndex: 3,
+    letterSpacing: '1px',
+    border: '2px solid #fff', // Adding a white border to the timer
+  };
+
   return (
     <div style={containerStyle}>
       <video style={videoStyle} autoPlay loop muted>
@@ -138,6 +175,11 @@ const GamePlay = () => {
       <h1 style={headingStyle}>Gameplay</h1>
       <p style={playerNameStyle}>Player: {playerName}</p>
       {question && <img src={question} alt="Question" style={questionStyle} />}
+      
+      {/* Countdown Timer */}
+      <div style={countdownStyle}>
+        {formatTime(timeLeft)}
+      </div>
       
       {/* Render answers as buttons */}
       {displayedAnswers.map((answer, index) => (

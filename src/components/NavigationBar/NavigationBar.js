@@ -37,7 +37,7 @@ const NavigationBar = () => {
           </div>
           <div className="depth-5-frame-11">
             <div className="depth-6-frame-016">
-              <div className="about-us">LeaderBoard</div>
+              <a className="about-us" href="/leaderboard">LeaderBoard</a>
             </div>
           </div>
           <div className="depth-5-frame-2">

@@ -3,6 +3,7 @@ import Login from "../pages/login/Login"
 import Register from "../pages/register/Register"
 import Help from "../pages/specialFunction/Help"
 import GamePlay from "../pages/Gameplay/GamePlay"
+import LeaderBoard from "../pages/LeaderBoard/LeaderBoard"
 
 const routes = {
     data: [
@@ -28,6 +29,12 @@ const routes = {
             name: "GamePlay",
             path: "/gameplay",
             component: <GamePlay/>,
+            type: "",
+         },
+         {
+            name: "LeaderBoard",
+            path: "/leaderboard",
+            component: <LeaderBoard/>,
             type: "",
          },
         
