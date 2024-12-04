@@ -9,6 +9,7 @@ import {
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Cookies from 'universal-cookie';
 
 const GamePlay = () => {
   const [playerName, setPlayerName] = useState('Player 1');
@@ -18,6 +19,12 @@ const GamePlay = () => {
   const [timeLeft, setTimeLeft] = useState(900); // 15 minutes in seconds
   const [score, setScore] = useState(0); // Initialize score
   const [EditedArray, setEditedArray] = useState([]);
+
+  useEffect(() => {
+    const cookies = new Cookies();
+    const customerName = cookies.get('customerName');
+    setPlayerName(customerName)
+  }, []);
 
   // Fetch a new question from the API
   const fetchQuestion = async () => {
@@ -236,7 +243,7 @@ const GamePlay = () => {
 
   const scoreBoxStyle = {
     position: 'absolute',
-    top: '70px',
+    top: '185px',
     right: '20px',
     background: 'rgba(0, 0, 0, 0.5)',
     color: '#fff',
