@@ -16,9 +16,6 @@ import { register } from "../../api/auth";
 const RegistrationCopy = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [address, setAddress] = useState("");
-  const [postalCode, setPostalCode] = useState("");
-  const [city, setCity] = useState("Jaffna");
   const [contactNumber, setContactNumber] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -34,17 +31,10 @@ const RegistrationCopy = () => {
     setLastName(event.target.value);
   };
 
-  const handleAddressChange = (event) => {
-    setAddress(event.target.value);
-  };
+ 
 
-  const handlePostalCodeChange = (event) => {
-    setPostalCode(event.target.value);
-  };
+  
 
-  const handleCityChange = (event) => {
-    setCity(event.target.value);
-  };
 
   const handleContactNumberChange = (event) => {
     setContactNumber(event.target.value);
@@ -79,9 +69,6 @@ const RegistrationCopy = () => {
     const data = {
       first_name: firstName,
       last_name: lastName,
-      address: address,
-      postal_code: postalCode,
-      city: city,
       contact_number: contactNumber,
       email: email,
       password: password,

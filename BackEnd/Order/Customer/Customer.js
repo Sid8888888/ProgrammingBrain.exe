@@ -1,4 +1,4 @@
-// controller.js
+
 require('dotenv').config();
 const bcrypt = require("bcrypt");
 const nodemailer = require('nodemailer');
@@ -38,7 +38,7 @@ const create = async (req, res) => {
       from: process.env.EMAIL_USERNAME,
       to: email,
       subject: 'Verify your email',
-      text: `Please verify your email by clicking the following link: http://yourapp.com/verify-email?token=${verificationToken}`
+      text: `Please verify your email by clicking the following link: http://localhost/4000:verify-email?token=${verificationToken}`
     };
 
     await transporter.sendMail(mailOptions);
