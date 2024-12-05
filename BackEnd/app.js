@@ -21,7 +21,7 @@ app.options('*', cors());
 
 
 
-app.use("/auth", require("./Order/admin-auth/userRoutes"));
+
 app.use("/", require("./Order/Customer/CustomerRoutes"));
 
 app.listen(PORT, () => {
