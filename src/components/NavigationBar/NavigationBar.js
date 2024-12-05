@@ -64,10 +64,10 @@ const NavigationBar = () => {
               </div>
             </div>
           </div>
-          <div className="depth-5-frame-12" onClick={navigateToProfile}>
+          <div className="depth-5-frame-12" >
             <div className="depth-6-frame-021">
               <div className="depth-7-frame-017" >
-                <img class="vector-01" alt="customer-profile" src={iconuser}/>
+               
                 <div className="depth-8-frame-011" />
               </div>
             </div>

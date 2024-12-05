@@ -8,8 +8,8 @@
 .login-7--0 {
   width: 480px;
   position: absolute;
-  margin: 0 auto;
-  top: 50%;
+  margin: 10px auto;
+  top: 75%;
   left: 50%;
   transform: translate(-50%, -50%);
   border-radius: 12px;
@@ -38,7 +38,7 @@
   justify-content: center; /* Center vertically */
 }
 .welcome-back {
-  margin: 0;
+  margin: 20px;
   position: relative;
   font-size: 32px;
   letter-spacing: -0.8px;
@@ -80,6 +80,7 @@
   align-items: flex-start;
   justify-content: flex-start;
   padding: 0 0 8px;
+  
 }
 .johndoegmailcom {
   position: relative;

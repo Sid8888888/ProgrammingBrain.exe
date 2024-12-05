@@ -10,6 +10,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Cookies from 'universal-cookie';
+import { useNavigate } from 'react-router-dom';
 
 const GamePlay = () => {
   const [playerName, setPlayerName] = useState('Player 1');
@@ -20,10 +21,12 @@ const GamePlay = () => {
   const [score, setScore] = useState(0); // Initialize score
   const [EditedArray, setEditedArray] = useState([]);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     const cookies = new Cookies();
     const customerName = cookies.get('customerName');
-    setPlayerName(customerName)
+    setPlayerName(customerName);
   }, []);
 
   // Fetch a new question from the API
@@ -56,9 +59,7 @@ const GamePlay = () => {
         return data; 
       });
 
-      setEditedArray(arrayOfA)
-
-      console.log('Array of A:', arrayOfA);
+      setEditedArray(arrayOfA);
 
       setDisplayedAnswers(selectedAnswers);  // Update the displayed answers
     } catch (error) {
@@ -71,14 +72,17 @@ const GamePlay = () => {
   }, []);
 
   useEffect(() => {
-    if (timeLeft <= 0) return; 
+    if (timeLeft <= 0) {
+      navigate('/leaderboard');  // Redirect to leaderboard page when time is up
+      return;
+    }
 
     const timer = setInterval(() => {
       setTimeLeft((prevTime) => prevTime - 1);
     }, 1000);
 
     return () => clearInterval(timer); 
-  }, [timeLeft]);
+  }, [timeLeft, navigate]);  // Add history to dependencies to prevent warnings
 
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
@@ -86,14 +90,10 @@ const GamePlay = () => {
     return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
   };
 
-  // Handle answer click event (using explicit if conditions)
+  // Handle answer click event
   const handleAnswerClick = (clickedAnswer) => {
     let updatedScore = score;
 
-    console.log('Solution:', solution);
-    console.log('Clicked Answer:', clickedAnswer);
-
-    // Explicit if conditions to check if the clicked answer matches the solution
     if (solution === 0 && clickedAnswer === Answer0) {
       updatedScore += 5;
     } else if (solution === 1 && clickedAnswer === Answer1) {
@@ -173,10 +173,6 @@ const GamePlay = () => {
     zIndex: 2,
   };
 
-  
-
-
-
   const arrowStyle = {
     marginLeft: '10px', 
     fontSize: '1.8em'
@@ -236,24 +232,11 @@ const GamePlay = () => {
     transition: 'transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease',
     boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.2)',
     zIndex: 2,
-  
-    // Hover effect for answer buttons
-    ':hover': {
-      transform: 'scale(1.05)',  // Slightly increase the size on hover
-      backgroundColor: '#f0f0f0',  // Light grey background on hover
-      boxShadow: '0px 6px 12px rgba(0, 0, 0, 0.3)',  // Larger shadow on hover
-    },
-  
-    // Active/pressed state for more interaction feedback
-    ':active': {
-      transform: 'scale(1.02)',  // Slightly smaller than hover for active state
-      boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.2)',  // Return to normal shadow when pressed
-    },
   };
-  
+
   const leaveButtonStyle = {
     ...buttonStyle,
-    backgroundColor: '#e74c3c',  // Red color for the skip button
+    backgroundColor: '#e74c3c',
     color: '#fff',
     fontSize: '1.2em',
     position: 'absolute',
@@ -264,30 +247,16 @@ const GamePlay = () => {
     paddingRight: '20px',
     alignItems: 'center',
     justifyContent: 'center',
-  
-    // Hover effect for leave button (skip question)
-    ':hover': {
-      transform: 'scale(1.05)',
-      backgroundColor: '#c0392b',  // Darker red when hovered
-      boxShadow: '0px 6px 12px rgba(0, 0, 0, 0.3)',  // Larger shadow
-    },
-  
-    // Active state for pressed effect
-    ':active': {
-      transform: 'scale(1.02)',  // Slightly smaller when clicked
-      boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.2)',  // Normal shadow when pressed
-    },
   };
-  
+
   const answerContainerStyle = {
     display: 'flex',
     justifyContent: 'center',
     flexWrap: 'wrap',
     gap: '20px',
     zIndex: 2,
-    transition: 'background-color 0.3s ease',  // Smooth transition for background color change
   };
-  
+
   const answerTextStyle = {
     fontFamily: 'monospace',
     fontSize: '1.1em',
@@ -296,36 +265,9 @@ const GamePlay = () => {
     padding: '10px',
     borderRadius: '8px',
     cursor: 'pointer',
-    transition: 'transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease',
     backgroundColor: '#fff',
-    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',  // Subtle default shadow
+    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
   };
-  
-  // Hover effect for answer options
-  const answerTextHoverStyle = {
-    ...answerTextStyle,
-    ':hover': {
-      transform: 'scale(1.05)',  // Slightly scale up on hover
-      backgroundColor: '#f0f0f0',  // Change background color on hover
-      boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',  // Add a stronger shadow on hover for a "lifted" effect
-    },
-  };
-  
-  // Hover effect for the container (optional)
-  const answerContainerHoverStyle = {
-    ...answerContainerStyle,
-    ':hover': {
-      backgroundColor: '#f0f0f0',  // Light grey background color when hovered
-    },
-  };
-  
-  
-  
- 
-  
- 
-  
-  
 
   return (
     <div style={containerStyle}>
@@ -364,7 +306,7 @@ const GamePlay = () => {
               <Col key={index}>
                 <button
                   style={buttonStyle}
-                  onClick={() => handleAnswerClick(answer.id)}  // Pass the specific answer here
+                  onClick={() => handleAnswerClick(answer.id)}
                 >
                   <span style={answerTextStyle}>{answer.value}</span>
                 </button>

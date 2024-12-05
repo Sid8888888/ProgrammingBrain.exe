@@ -1,13 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
+import home from '../../Icons/home.jpg';  // You can replace this with a new background image if needed.
 
 const Leaderboard = () => {
   const leaderboardData = [
-    { name: "Alice", score: 95 },
-    { name: "Bob", score: 85 },
-    { name: "Charlie", score: 75 },
-    { name: "Diana", score: 65 },
-    { name: "Ethan", score: 55 },
+    { name: "Sid Sugananth", score: 95 },
+    { name: "Raj Pragash", score: 85 },
+    { name: "Prathes Vijayan", score: 75 },
+    { name: "Abilash Abi", score: 65 },
+    { name: "Brainny Gamer", score: 55 },
   ];
 
   return (
@@ -33,44 +34,81 @@ const LeaderboardContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: #2c3e50;
+  background-image: url(${home});
+  background-size: cover;
+  background-position: center;
   padding: 20px;
   box-sizing: border-box;
+  overflow: hidden;
 `;
 
 const LeaderboardTitle = styled.h1`
-  color: #ffffff;
-  margin-bottom: 20px;
+  font-family: 'Arial', sans-serif;
+  color: #fff;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 30px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
 `;
 
 const LeaderboardList = styled.div`
   width: 100%;
-  max-width: 600px;
+  max-width: 700px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 15px;
 `;
 
 const LeaderboardEntry = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 10px;
-  background-color: #34495e;
-  border-radius: 5px;
+  align-items: center;
+  padding: 20px;
+  background-color: #2c3e50;  // Dark blue background
+  border-radius: 10px;
   color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: #34495e;  // Darker blue on hover
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  }
 `;
 
 const Rank = styled.span`
+  font-family: 'Arial', sans-serif;
+  font-size: 1.2rem;
   font-weight: bold;
-  color: #3498db;
+  color: #fff;
+  background-color: #3498db;
+  padding: 10px;
+  border-radius: 50%;
+  text-align: center;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const Name = styled.span`
   flex-grow: 1;
+  font-family: 'Arial', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 500;
   text-align: center;
+  text-transform: capitalize;
+  color: #fff;
+  padding: 0 15px;
 `;
 
 const Score = styled.span`
+  font-family: 'Arial', sans-serif;
+  font-size: 1.2rem;
   font-weight: bold;
   color: #e74c3c;
 `;
